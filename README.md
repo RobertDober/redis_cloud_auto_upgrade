@@ -18,7 +18,7 @@ The following can be configured
 
 ## Dependencies
 
-* Redis
+* [Redis](https://github.com/redis/redis-rb)
 
 * [PlatformAPI](https://github.com/heroku/platform-api)
 

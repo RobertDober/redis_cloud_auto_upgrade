@@ -1,0 +1,73 @@
+PATH
+  remote: .
+  specs:
+    redis_cloud_auto_upgrade (0.0.1)
+      platform-api (~> 0.5)
+      redis (~> 3.2)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    byebug (8.2.2)
+    codeclimate-test-reporter (0.5.0)
+      simplecov (>= 0.7.1, < 1.0.0)
+    coderay (1.1.1)
+    diff-lcs (1.2.5)
+    docile (1.1.5)
+    erubis (2.7.0)
+    excon (0.48.0)
+    heroics (0.0.16)
+      erubis (~> 2.0)
+      excon
+      moneta
+      multi_json (>= 1.9.2)
+      netrc
+    json (1.8.3)
+    method_source (0.8.2)
+    moneta (0.8.0)
+    multi_json (1.11.2)
+    netrc (0.11.0)
+    platform-api (0.5.0)
+      heroics
+    pry (0.10.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-byebug (3.3.0)
+      byebug (~> 8.0)
+      pry (~> 0.10)
+    redis (3.2.2)
+    rspec (3.4.0)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
+    rspec-core (3.4.4)
+      rspec-support (~> 3.4.0)
+    rspec-expectations (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-mocks (3.4.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-support (3.4.1)
+    simplecov (0.11.2)
+      docile (~> 1.1.0)
+      json (~> 1.8)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
+    slop (3.6.0)
+    travis-lint (2.0.0)
+      json
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  codeclimate-test-reporter
+  pry-byebug (~> 3.3)
+  redis_cloud_auto_upgrade!
+  rspec (~> 3.4)
+  travis-lint (~> 2.0)
+
+BUNDLED WITH
+   1.11.2

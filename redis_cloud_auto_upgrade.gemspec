@@ -1,11 +1,11 @@
 $:.unshift( File.expand_path( "../lib", __FILE__ ) )
-require 'lab42/core/version'
-version = Lab42::Core::VERSION
+require 'redis_cloud_auto_upgrade/version'
+version = RedisCloudAutoUpgrade::VERSION
 Gem::Specification.new do |s|
-  s.name        = 'lab42_core'
+  s.name        = 'redis_cloud_auto_upgrade'
   s.version     = version
-  s.summary     = 'Simple Ruby Core Module Extensions (for more see lab42_more)'
-  s.description = %{Functional Access to Methods - Memoization - Extending Array, Hash, File, Enumerable with convenience methods, conceptual changes have been moved into lab42_more} 
+  s.summary     = 'Gem permits to auto upgrade your Redis Cloud plan when a certain memory usage treshold is reached'
+  s.description = %{Gem permits to auto upgrade your Redis Cloud plan when a certain memory usage treshold is reached} 
   s.authors     = ["Robert Dober"]
   s.email       = 'robert.dober@gmail.com'
   s.files       = Dir.glob("lib/**/*.rb")
@@ -13,15 +13,11 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/RobertDober/lab42_core"
   s.licenses    = %w{MIT}
 
-  s.required_ruby_version = '>= 2.1.0'
-  s.add_dependency 'forwarder2', '~> 0.2'
+  s.required_ruby_version = '>= 2.2.0'
+  s.add_dependency 'redis', '~> 3.2'
+  s.add_dependency 'platform-api', '~> 0.5'
 
-  s.add_development_dependency 'pry', '~> 0.10'
-  s.add_development_dependency 'pry-nav', '~> 0.2'
-  s.add_development_dependency 'rspec', '~> 3.2'
-  s.add_development_dependency 'qed', '~> 2.9'
-  s.add_development_dependency 'ae', '~> 1.8'
-  # s.add_development_dependency 'lab42_tmux2', '~> 0.0'
+  s.add_development_dependency 'pry-byebug', '~> 3.3'
+  s.add_development_dependency 'rspec', '~> 3.4'
   s.add_development_dependency 'travis-lint', '~> 2.0'
-  # s.add_development_dependency 'rake', '~> 10.3'
 end
