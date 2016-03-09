@@ -27,36 +27,33 @@ Typically it will be used in a background job.
 
     # E.g. in a Sidekiq Worker
 
-    def rcau
-       @__rcau__ ||=
-        RedisCloudAutoUpgrade
-          .new do | conf |
-             # API key for the Heroku API
-             conf.heroku_api_key = "a88a8aa8-a8a8-4b57-a8aa-8888aa8888aa"
+    def perform
+        RedisCloudAutoUpgrade.potential_upgrade!(
+             # API key for the Heroku API                              required
+             heroku_api_key: "a88a8aa8-a8a8-4b57-a8aa-8888aa8888aa",
 
-             # Id of addon, which must be a rediscloud addon_service
-             conf.redis_cloud_id = "4ceaf719-8a4b-4b8b-8dcf-7852fa79ec44"
+             # Id of addon, which must be a rediscloud addon_service   required
+             redis_cloud_id: = "4ceaf719-8a4b-4b8b-8dcf-7852fa79ec44"
 
-             # Upgrade as soon as 50% of the available memory is used
-             conf.treshhold = 0.5
+             # Upgrade as soon as 50% of the available memory is used  defaults to 0.5
+             treshhold: 0.5
 
-             # Logging is provided if enabled as follows
-             conf.logger = Rails.logger
-
-             # Any action can be taken in case an upgrade is actually done
-             conf.on_upgrade do | upgrade_info |
-                # upgrade_info is a Hash see below for more information
+             # Logging is provided if enabled as follows               optional
+             logger: Rails.logger
+        ) do | upgrade_info |
+             # Callback in case an upgrade is actually done            optional
+             # upgrade_info is a Hash see below for more information
                 ...
-             end
           end
     end
-
-    def perform
-      rcau.potential_upgrade! 
-    end 
 ```
 
-The following information is available in the `upgrade_info` Hash
+The `potential_upgrade!` is a **threadsafe** interface to the internal implementation
+
+
+Its return value is nil if no upgrade was applied, or a Hash as described below. This
+same Hash is passed into the callback which is only invoked in case an upgrade was
+applied.
 
 ```ruby
     {
