@@ -13,9 +13,11 @@ The following can be configured
 
 Typically it will be used in a background job.
  
-**N.B.**
+## Gotchas
 
-RedisCloud plan data is hardcoded into the gem for now.
+* RedisCloud plan data is hardcoded into the gem for now.
+
+* Only the current Redis instance is used to determine the used memory.
 
 ## Usage
 
