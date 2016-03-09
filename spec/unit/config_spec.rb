@@ -1,33 +1,80 @@
 require 'spec_helper'
-RSpec.describe RedisCloudAutoUpgrade do
+RSpec.describe RedisCloudAutoUpgrade::Configuration do
+  let(:config) { described_class.new }
 
-  let( :rcau ){ described_class.new }
-  let( :config ){ rcau.send :config }
+  context 'is invalid' do
+    it 'if unconfigured' do
+      expect(config).not_to be_valid
+    end
+    it 'if empty' do
+      config.configure({})
+      expect(config).not_to be_valid
+    end
+    it "if one required field's missing (heroku_api_key)" do
+      config.configure(redis_cloud_id: '...')
+      expect(config).not_to be_valid
+    end
+    it "if one required field's missing (redis_cloud_id)" do
+      config.configure(heroku_api_key: '...')
+      expect(config).not_to be_valid
+    end
+  end # context 'is invalid'
 
+  context 'is valid' do
+    let(:logger) { double }
+    let(:on_upgrade) { double }
 
-  context "configuration of a newly created instance" do 
+    before do
+      config.configure(heroku_api_key: '...', redis_cloud_id: '***')
+    end
 
-    context "default values" do 
-      it "for treshold" do
-        expect( config.treshhold ).to be_nil
+    it 'if both required values are provided' do
+      expect(config).to be_valid
+    end
+
+    it 'and can access other fields' do
+      config.configure(logger: logger)
+      expect(config.logger).to eq logger
+      expect(config.on_upgrade).to be_nil
+    end
+
+    it 'has a default value' do
+      expect(config.treshhold).to be_within(0.0001).of(0.5)
+    end
+
+    it 'can set all fields' do
+      config.configure(logger: logger)
+      config.configure(treshhold: 1.0, on_upgrade: on_upgrade)
+      expect(config.heroku_api_key).to eq '...'
+      expect(config.redis_cloud_id).to eq '***'
+      expect(config.logger).to eq logger
+      expect(config.on_upgrade).to eq on_upgrade
+    end
+  end # context 'is valid'
+
+  context 'configure is chainable' do
+    it { expect(config.configure).to be_kind_of(config.class) }
+  end # context "config is chainable"
+
+  context 'error handling' do
+    it 'has errors if empty (after validation)' do
+      expect(config.errors).to be_empty
+      config.valid?
+      expect(config.errors).not_to be_empty
+    end
+
+    context 'gives a human readable error message' do
+      it 'if both required fields are missing' do
+        config.valid?
+        expect(config.errors_human_readable).to \
+          eq(%(Missing required_fields: [:heroku_api_key, :redis_cloud_id]))
       end
-      it "for callback" do
-        expect( config.on_upgrade ).to be_nil
+      it 'if one required field is missing' do
+        config.configure(heroku_api_key: 'somekey')
+        config.valid?
+        expect(config.errors_human_readable).to \
+          eq(%(Missing required_fields: [:redis_cloud_id]))
       end
-    end # context "default values"
-    
-    context "not all needed values provided" do 
-      before do
-        rcau.configure do |c|
-          c.heroku_api_key = "a88a8aa8-a8a8-4b57-a8aa-8888aa8888aa"
-          c.redis_cloud_id = "4ceaf719-8a4b-4b8b-8dcf-7852fa79ec44"
-        end
-      end
-
-      it "will raise an error when potential_upgrade! is invoked" do
-        expect{ rcau.potential_upgrade! }.to raise_error( RedisCloudAutoUpgrade.IllegalConfiguration, /use conf\.treshhold =/ )
-      end
-    end # context "not all needed values provided"
-  end # context "configuration of a newly created instance"
+    end
+  end # context 'error handling'
 end
-

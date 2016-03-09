@@ -1,10 +1,29 @@
 require_relative './redis_cloud_auto_upgrade/version'
+require_relative './redis_cloud_auto_upgrade/exceptions'
 require_relative './redis_cloud_auto_upgrade/configuration'
 
+# See README.md for details
 class RedisCloudAutoUpgrade
+  class << self
+    def potential_upgrade!(conf, &blk)
+      updated_conf = conf.merge(on_upgrade: blk)
+      new
+        .configure(updated_conf)
+        .potential_upgrade!
+    end
+  end # class << self
 
-  def configure &blk
-    blk.( @config )
+  def configure(config)
+    @config.configure config
+    self
+  end
+
+  def potential_upgrade!
+    if config.valid?
+      do_potential_upgrade!
+    else
+      fail IllegalConfiguration, config.errors_human_readable
+    end
   end
 
   private
@@ -13,5 +32,5 @@ class RedisCloudAutoUpgrade
     @config = Configuration.new
   end
 
-  def config; @config end
+  attr_reader :config
 end # class RedisCloudAutoUpgrade
