@@ -1,0 +1,13 @@
+AllCops:
+  RunRailsCops: true
+
+  Exclude:
+    - 'bin/rails'
+    - 'bin/spring'
+    - 'bin/rake'
+    - 'bin/setup'
+    - 'db/schema.rb'
+    - 'db/migrate/*' # These are auto-generated
+
+Metrics/LineLength:
+  Max: 120

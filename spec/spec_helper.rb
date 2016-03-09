@@ -1,9 +1,8 @@
 
-require_relative "../lib/redis_cloud_auto_upgrade"
-RCAU = RedisCloudAutoUpgrade
+require_relative '../lib/redis_cloud_auto_upgrade'
 
-PROJECT_ROOT = File.expand_path "../..", __FILE__
-Dir[File.join(PROJECT_ROOT,"spec/support/**/*.rb")].each {|f| require f}
+PROJECT_ROOT = File.expand_path '../..', __FILE__
+Dir[File.join(PROJECT_ROOT, 'spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |c|
   c.filter_run wip: true
