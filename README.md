@@ -29,7 +29,13 @@ RedisCloud plan data is hardcoded into the gem for now.
        @__rcau__ ||=
         RedisCloudAutoUpgrade
           .new do | conf |
-             # Upgrade as soon as 50% of the available 
+             # API key for the Heroku API
+             conf.heroku_api_key = "a88a8aa8-a8a8-4b57-a8aa-8888aa8888aa"
+
+             # Id of addon, which must be a rediscloud addon_service
+             conf.redis_cloud_id = "4ceaf719-8a4b-4b8b-8dcf-7852fa79ec44"
+
+             # Upgrade as soon as 50% of the available memory is used
              conf.treshhold = 0.5
 
              # Logging is provided if enabled as follows
@@ -38,6 +44,7 @@ RedisCloud plan data is hardcoded into the gem for now.
              # Any action can be taken in case an upgrade is actually done
              conf.on_upgrade do | upgrade_info |
                 # upgrade_info is a Hash see below for more information
+                ...
              end
           end
     end
