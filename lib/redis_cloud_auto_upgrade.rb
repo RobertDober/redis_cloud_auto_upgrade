@@ -19,8 +19,6 @@ class RedisCloudAutoUpgrade
     end
   end # class << self
 
-  attr_reader :config
-
   def configure(config)
     @config.configure config
     self
@@ -44,6 +42,8 @@ class RedisCloudAutoUpgrade
   def initialize
     @config = Configuration.new
   end
+
+  attr_reader :config
 
   def do_potential_upgrade!
   end
