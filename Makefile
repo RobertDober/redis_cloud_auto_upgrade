@@ -4,5 +4,8 @@ test:
 run_test: test
 	bundle exec rubocop
 
-dev_test: test
+
+dev_cop:
 	bundle exec rubocop -a
+
+coffee: dev_cop test

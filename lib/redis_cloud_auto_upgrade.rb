@@ -7,6 +7,10 @@ require 'redis'
 # See README.md for details
 class RedisCloudAutoUpgrade
   class << self
+    def current_redis_mem_usage
+      Redis.current.info['used_memory'].to_i
+    end
+
     def potential_upgrade!(conf, &blk)
       updated_conf = conf.merge(on_upgrade: blk)
       new
@@ -18,10 +22,6 @@ class RedisCloudAutoUpgrade
   def configure(config)
     @config.configure config
     self
-  end
-  
-  def current_redis_mem_usage
-    Redis.current.info["used_memory"].to_i
   end
 
   def potential_upgrade!

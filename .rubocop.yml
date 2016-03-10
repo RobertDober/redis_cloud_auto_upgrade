@@ -2,12 +2,11 @@ AllCops:
   RunRailsCops: true
 
   Exclude:
-    - 'bin/rails'
-    - 'bin/spring'
-    - 'bin/rake'
-    - 'bin/setup'
-    - 'db/schema.rb'
-    - 'db/migrate/*' # These are auto-generated
+    - 'exp/**/*'
+
+# Style/RegexpLiteral:
+#   EnforcedStyle: percent_r
 
 Metrics/LineLength:
   Max: 120
+
