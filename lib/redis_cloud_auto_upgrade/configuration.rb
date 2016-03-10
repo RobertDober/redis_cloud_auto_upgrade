@@ -5,7 +5,8 @@ class RedisCloudAutoUpgrade
     :heroku_api_key,
     :treshhold,
     :logger,
-    :redis_cloud_id
+    :redis_cloud_id,
+    :redis_instance
   ) do
     attr_reader :errors
 

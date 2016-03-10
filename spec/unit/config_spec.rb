@@ -36,6 +36,7 @@ RSpec.describe RedisCloudAutoUpgrade::Configuration do
       config.configure(logger: logger)
       expect(config.logger).to eq logger
       expect(config.on_upgrade).to be_nil
+      expect(config.redis_instance).to be_nil
     end
 
     it 'has a default value' do

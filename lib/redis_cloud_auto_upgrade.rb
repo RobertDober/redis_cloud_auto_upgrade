@@ -7,8 +7,8 @@ require 'redis'
 # See README.md for details
 class RedisCloudAutoUpgrade
   class << self
-    def current_redis_mem_usage
-      Redis.current.info['used_memory'].to_i
+    def current_redis_mem_usage(redis: Redis.current)
+      redis.info['used_memory'].to_i
     end
 
     def potential_upgrade!(conf, &blk)
