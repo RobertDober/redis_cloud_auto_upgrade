@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    redis_cloud_auto_upgrade (0.0.4)
+    redis_cloud_auto_upgrade (0.0.7)
       platform-api (~> 0.5)
       redis (~> 3.2)
 
@@ -101,6 +101,7 @@ GEM
       hitimes
     travis-lint (2.0.0)
       json
+    vcr (3.0.1)
 
 PLATFORMS
   ruby
@@ -113,6 +114,7 @@ DEPENDENCIES
   rubocop (= 0.29.1)
   sidekiq (~> 3.3)
   travis-lint (~> 2.0)
+  vcr (~> 3.0)
 
 BUNDLED WITH
    1.11.2

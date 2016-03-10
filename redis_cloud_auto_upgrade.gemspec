@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop', '= 0.29.1'
   s.add_development_dependency 'sidekiq', '~> 3.3'
   s.add_development_dependency 'travis-lint', '~> 2.0'
+  s.add_development_dependency 'vcr', '~> 3.0'
 end

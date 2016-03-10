@@ -11,10 +11,10 @@ RSpec.describe RedisCloudAutoUpgrade::Configuration do
       expect(config).not_to be_valid
     end
     it "if one required field's missing (heroku_api_key)" do
-      config.configure(redis_cloud_id: '...')
+      config.configure(heroku_app_name: '...')
       expect(config).not_to be_valid
     end
-    it "if one required field's missing (redis_cloud_id)" do
+    it "if one required field's missing (heroku_app_name)" do
       config.configure(heroku_api_key: '...')
       expect(config).not_to be_valid
     end
@@ -25,7 +25,7 @@ RSpec.describe RedisCloudAutoUpgrade::Configuration do
     let(:on_upgrade) { double }
 
     before do
-      config.configure(heroku_api_key: '...', redis_cloud_id: '***')
+      config.configure(heroku_api_key: '...', heroku_app_name: '***')
     end
 
     it 'if both required values are provided' do
@@ -47,7 +47,7 @@ RSpec.describe RedisCloudAutoUpgrade::Configuration do
       config.configure(logger: logger)
       config.configure(treshhold: 1.0, on_upgrade: on_upgrade)
       expect(config.heroku_api_key).to eq '...'
-      expect(config.redis_cloud_id).to eq '***'
+      expect(config.heroku_app_name).to eq '***'
       expect(config.logger).to eq logger
       expect(config.on_upgrade).to eq on_upgrade
     end
@@ -68,23 +68,34 @@ RSpec.describe RedisCloudAutoUpgrade::Configuration do
       it 'if both required fields are missing' do
         config.valid?
         expect(config.errors_human_readable).to \
-          eq(%(Missing required_fields: [:heroku_api_key, :redis_cloud_id]))
+          eq(%(Missing required_fields: [:heroku_api_key, :heroku_app_name]))
       end
       it 'if one required field is missing' do
         config.configure(heroku_api_key: 'somekey')
         config.valid?
         expect(config.errors_human_readable).to \
-          eq(%(Missing required_fields: [:redis_cloud_id]))
+          eq(%(Missing required_fields: [:heroku_app_name]))
       end
     end
 
     context 'if config is valid' do
       before do
-        config.configure(heroku_api_key: '...', redis_cloud_id: '***')
+        config.configure(heroku_api_key: '...', heroku_app_name: '***')
       end
       it 'does not have any human readable errors' do
         expect(config.errors_human_readable).to be_nil
       end
     end
   end # context 'error handling'
+
+  context 'extracting values' do
+    before do
+      config.configure(heroku_api_key: '...', heroku_app_name: '***')
+    end
+
+    it 'with only' do
+      expect(config.only(:heroku_api_key, :redis_instance)).to \
+        eq(heroku_api_key: '...', redis_instance: nil)
+    end
+  end
 end

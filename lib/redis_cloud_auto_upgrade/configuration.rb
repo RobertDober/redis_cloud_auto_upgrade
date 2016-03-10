@@ -2,9 +2,9 @@
 class RedisCloudAutoUpgrade
   Configuration = Struct.new(
     :heroku_api_key,
+    :heroku_app_name,
     :logger,
     :on_upgrade,
-    :redis_cloud_id,
     :redis_instance,
     :treshhold
   ) do
@@ -17,6 +17,12 @@ class RedisCloudAutoUpgrade
       self
     end
 
+    def only(*keys)
+      keys.inject({})do |h, k|
+        h.merge(k => send(k))
+      end
+    end
+
     def errors_human_readable
       return nil if @errors.empty?
       missing_fields
@@ -24,7 +30,7 @@ class RedisCloudAutoUpgrade
 
     def valid?
       heroku_api_key.nil? && @errors.push([:missing, :heroku_api_key])
-      redis_cloud_id.nil? && @errors.push([:missing, :redis_cloud_id])
+      heroku_app_name.nil? && @errors.push([:missing, :heroku_app_name])
       @errors.empty?
     end
 

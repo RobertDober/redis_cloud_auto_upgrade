@@ -2,6 +2,8 @@ require_relative './redis_cloud_auto_upgrade/version'
 require_relative './redis_cloud_auto_upgrade/exceptions'
 require_relative './redis_cloud_auto_upgrade/configuration'
 
+require_relative './heroku_api'
+
 require 'redis'
 
 # See README.md for details
@@ -22,6 +24,10 @@ class RedisCloudAutoUpgrade
   def configure(config)
     @config.configure config
     self
+  end
+
+  def current_redis_cloud_plan
+    HerokuAPI.current_redis_cloud_plan(**config.only(:heroku_app_name, :heroku_api_key))
   end
 
   def current_redis_mem_usage
