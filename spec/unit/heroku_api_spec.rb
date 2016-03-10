@@ -1,5 +1,4 @@
-require 'spec_helper'
-require 'vcr'
+require 'vcr_helper'
 
 RSpec.describe HerokuAPI, :wip do
   let :heroku_api_key do

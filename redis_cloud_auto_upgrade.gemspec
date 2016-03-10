@@ -23,4 +23,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'sidekiq', '~> 3.3'
   s.add_development_dependency 'travis-lint', '~> 2.0'
   s.add_development_dependency 'vcr', '~> 3.0'
+  s.add_development_dependency 'webmock', '~> 1.24'
 end

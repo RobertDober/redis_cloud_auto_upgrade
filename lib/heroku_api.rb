@@ -10,10 +10,6 @@ module HerokuAPI
       .find(&select_redis_cloud_addon)['plan']['name']
   end
 
-  private
-
-  module_function
-
   def heroku(api_key)
     PlatformAPI.connect api_key
   end

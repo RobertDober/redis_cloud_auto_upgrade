@@ -1,0 +1,64 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://user:a87a9af6-a0c7-4b57-a7ef-3806aa3810ad@api.heroku.com/apps/fcv-experiments/addons
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - excon/0.48.0
+      Authorization:
+      - Basic dXNlcjphODdhOWFmNi1hMGM3LTRiNTctYTdlZi0zODA2YWEzODEwYWQ=
+      Accept:
+      - application/vnd.heroku+json; version=3
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Accept-Ranges:
+      - id, name
+      Cache-Control:
+      - private, no-cache
+      Content-Expansion:
+      - addon_service, plan
+      Content-Range:
+      - name rediscloud-perpendicular-18692..rediscloud-perpendicular-18692
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 10 Mar 2016 16:53:39 GMT
+      Etag:
+      - '"07e6c9e0812284473502daaae5fe481f"'
+      Last-Modified:
+      - Thu, 10 Mar 2016 09:23:41 GMT
+      Oauth-Scope:
+      - global
+      Oauth-Scope-Accepted:
+      - global read read-protected write write-protected
+      Ratelimit-Multiplier:
+      - '1'
+      Ratelimit-Remaining:
+      - '4499'
+      Request-Id:
+      - 57600533-7cd3-40a9-ab32-d5b6a0933cef
+      Server:
+      - nginx/1.8.1
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Runtime:
+      - '0.102230472'
+      Content-Length:
+      - '565'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '[{"config_vars":["REDISCLOUD_URL"],"created_at":"2016-03-10T09:23:04Z","id":"cf381050-415a-4917-bc3d-d500e3cbb550","name":"rediscloud-perpendicular-18692","addon_service":{"id":"d0e95e8c-a963-4437-9cca-d351a1407f2a","name":"rediscloud"},"plan":{"id":"ffea926b-cb2d-412d-9a75-0ca73b95ea61","name":"rediscloud:30"},"app":{"id":"301f9d52-37fd-4bab-b07c-e168135ce8f2","name":"fcv-experiments"},"provider_id":"105477:7879053","updated_at":"2016-03-10T09:23:41Z","web_url":"https://addons-sso.heroku.com/apps/fcv-experiments/addons/cf381050-415a-4917-bc3d-d500e3cbb550"}]'
+    http_version: 
+  recorded_at: Thu, 10 Mar 2016 16:53:40 GMT
+recorded_with: VCR 3.0.1
