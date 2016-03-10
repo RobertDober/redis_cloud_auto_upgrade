@@ -1,12 +1,12 @@
 # Configuration part
 class RedisCloudAutoUpgrade
   Configuration = Struct.new(
-    :on_upgrade,
     :heroku_api_key,
-    :treshhold,
     :logger,
+    :on_upgrade,
     :redis_cloud_id,
-    :redis_instance
+    :redis_instance,
+    :treshhold
   ) do
     attr_reader :errors
 

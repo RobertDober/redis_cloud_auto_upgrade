@@ -7,8 +7,8 @@ require 'redis'
 # See README.md for details
 class RedisCloudAutoUpgrade
   class << self
-    def current_redis_mem_usage(redis: Redis.current)
-      redis.info['used_memory'].to_i
+    def current_redis_cloud_plan(conf)
+      HerokuAPI.redis_cloud_plan(conf)
     end
 
     def potential_upgrade!(conf, &blk)
@@ -22,6 +22,11 @@ class RedisCloudAutoUpgrade
   def configure(config)
     @config.configure config
     self
+  end
+
+  def current_redis_mem_usage
+    redis_instance = config.redis_instance || Redis.current
+    redis_instance.info['used_memory'].to_i
   end
 
   def potential_upgrade!
@@ -39,4 +44,7 @@ class RedisCloudAutoUpgrade
   end
 
   attr_reader :config
+
+  def do_potential_upgrade!
+  end
 end # class RedisCloudAutoUpgrade

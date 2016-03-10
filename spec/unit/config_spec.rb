@@ -77,5 +77,14 @@ RSpec.describe RedisCloudAutoUpgrade::Configuration do
           eq(%(Missing required_fields: [:redis_cloud_id]))
       end
     end
+
+    context 'if config is valid' do
+      before do
+        config.configure(heroku_api_key: '...', redis_cloud_id: '***')
+      end
+      it 'does not have any human readable errors' do
+        expect(config.errors_human_readable).to be_nil
+      end
+    end
   end # context 'error handling'
 end
