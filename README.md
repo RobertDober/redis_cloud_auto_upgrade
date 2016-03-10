@@ -70,6 +70,9 @@ applied.
 
 * [PlatformAPI](https://github.com/heroku/platform-api)
 
+## References
+
+* [Heroku Platform API / Addons](https://devcenter.heroku.com/articles/platform-api-reference#add-on)
 ## Copyright
 
 MIT, c.f. [LICENSE](LICENSE)
