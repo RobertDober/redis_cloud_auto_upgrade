@@ -35,6 +35,13 @@ class RedisCloudAutoUpgrade
     redis_instance.info['used_memory'].to_i
   end
 
+  def needs_to_upgrade?
+    !(current_redis_mem_usage <
+      HerokuAPI.currently_available_memory(
+        **config.only(:heroku_api_key, :heroku_app_name)
+      ) * config.treshhold)
+  end
+
   def potential_upgrade!
     if config.valid?
       do_potential_upgrade!
