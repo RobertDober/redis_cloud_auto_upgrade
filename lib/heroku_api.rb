@@ -81,4 +81,12 @@ module HerokuAPI
       end
     end
   end
+
+  def upgrade_plan!(heroku_api_key:, heroku_app_name:)
+    next_plan =
+      next_plan_to_upgrade_to(heroku_api_key: heroku_api_key, heroku_app_name: heroku_app_name)
+    heroku(heroku_api_key)
+      .addon
+      .update(heroku_app_name, 'rediscloud', plan: next_plan)
+  end
 end

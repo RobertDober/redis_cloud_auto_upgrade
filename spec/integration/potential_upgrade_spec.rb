@@ -5,8 +5,17 @@ RSpec.describe RedisCloudAutoUpgrade, type: :functional do
   context '#potential_upgrade!' do
     context 'does not upgrade the plan' do
       before do
+        allow(rcau).to receive(:needs_to_upgrade?).and_return false
+        expect( HerokuAPI ).not_to receive(:upgrade_to_plan!)
+      end
+      it { rcau.potential_upgrade! }
+    end # context 'does not upgrade the plan'
+    context 'upgrades the plan' do
+      before do
         allow(rcau).to receive(:needs_to_upgrade?).and_return true
-        allow(rcau).to receive(:do_upgrade!) { fail 'error' }
+        expect( HerokuAPI ).to \
+          receive(:upgrade_to_plan!)
+            .with(**@heroku_params)
       end
       it { rcau.potential_upgrade! }
     end # context 'does not upgrade the plan'

@@ -59,5 +59,8 @@ class RedisCloudAutoUpgrade
   attr_reader :config
 
   def do_potential_upgrade!
+    HerokuAPI.upgrade_to_plan!(
+      **config.only(:heroku_api_key, :heroku_app_name)
+    ) if needs_to_upgrade?
   end
 end # class RedisCloudAutoUpgrade
