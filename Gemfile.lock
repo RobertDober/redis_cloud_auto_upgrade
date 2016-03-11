@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    redis_cloud_auto_upgrade (0.0.8)
+    redis_cloud_auto_upgrade (0.0.9)
       platform-api (~> 0.5)
       redis (~> 3.2)
 
