@@ -34,6 +34,10 @@ module HerokuAPI
       end
   end
 
+  def next_plan_to_upgrade_to(heroku_api_key:, heroku_app_name:)
+    next_plan(current_redis_cloud_plan(heroku_api_key: heroku_api_key, heroku_app_name: heroku_app_name))
+  end
+
   # rubocop:disable Metrics/MethodLength
   def plan_transitions
     {
