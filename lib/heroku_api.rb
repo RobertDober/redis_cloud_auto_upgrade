@@ -88,5 +88,6 @@ module HerokuAPI
     heroku(heroku_api_key)
       .addon
       .update(heroku_app_name, 'rediscloud', plan: next_plan)
+    next_plan
   end
 end

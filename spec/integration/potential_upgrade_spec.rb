@@ -19,13 +19,13 @@ RSpec.describe RedisCloudAutoUpgrade, type: :functional do
       before do
         allow(rcau).to receive(:needs_to_upgrade?).and_return true
         expect(HerokuAPI).to \
-          receive(:upgrade_to_plan!)
+          receive(:upgrade_plan!)
           .with(**@heroku_params)
       end
       it { rcau.potential_upgrade! }
       it 'executes the callback' do
         callback_called = false
-        rcau.configure(on_upgrade: -> { callback_called = true })
+        rcau.configure(on_upgrade: -> (x){ x==rcau && callback_called = true })
         rcau.potential_upgrade!
         expect(callback_called).to be_truthy
       end

@@ -27,21 +27,18 @@ class RedisCloudAutoUpgrade
   end
 
   def current_redis_cloud_plan
-    HerokuAPI.current_redis_cloud_plan(**config.only(:heroku_app_name, :heroku_api_key))
+    HerokuAPI.current_redis_cloud_plan(**heroku_params)
   end
 
   # Memoize from lab42_core gem?
   def current_redis_mem_usage
-    return @current_redis_mem_usage if @current_redis_mem_usage
+    return @__current_redis_mem_usage__ if @__current_redis_mem_usage__
     redis_instance = config.redis_instance || Redis.current
-    @current_redis_mem_usage = redis_instance.info['used_memory'].to_i
+    @__current_redis_mem_usage__ = redis_instance.info['used_memory'].to_i
   end
 
   def needs_to_upgrade?
-    !(current_redis_mem_usage <
-      HerokuAPI.currently_available_memory(
-        **config.only(:heroku_api_key, :heroku_app_name)
-      ) * config.treshhold)
+    !(current_redis_mem_usage <  currently_available_memory * config.treshhold)
   end
 
   def potential_upgrade!
@@ -60,9 +57,15 @@ class RedisCloudAutoUpgrade
 
   attr_reader :config
 
+  def currently_available_memory
+    @__currently_available_memory__ ||=
+      HerokuAPI.currently_available_memory(
+        **config.only(:heroku_api_key, :heroku_app_name))
+  end
   def do_potential_upgrade!
     if needs_to_upgrade?
-      HerokuAPI.upgrade_to_plan!(
+      old_plan = current_redis_cloud_plan
+      new_plan = HerokuAPI.upgrade_plan!(
         **config.only(:heroku_api_key, :heroku_app_name)
       )
       log <<-EOS
@@ -76,6 +79,10 @@ class RedisCloudAutoUpgrade
     end
   end
 
+  def heroku_params
+    @__heroku_params__ ||=
+      config.only(:heroku_api_key, :heroku_app_name)
+  end
   def log str
     # Coming soon
   end
