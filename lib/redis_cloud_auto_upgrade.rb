@@ -9,10 +9,6 @@ require 'redis'
 # See README.md for details
 class RedisCloudAutoUpgrade
   class << self
-    def current_redis_cloud_plan(conf)
-      HerokuAPI.redis_cloud_plan(conf)
-    end
-
     def potential_upgrade!(conf, &blk)
       updated_conf = conf.merge(on_upgrade: blk)
       new
@@ -27,6 +23,7 @@ class RedisCloudAutoUpgrade
   end
 
   def current_redis_cloud_plan
+    @__current_redis_cloud_plan ||=
     HerokuAPI.current_redis_cloud_plan(**heroku_params)
   end
 
@@ -66,8 +63,10 @@ class RedisCloudAutoUpgrade
   def do_potential_upgrade!
     if needs_to_upgrade?
       do_upgrade!
+      true
     else
       info "no upgrade needed #{config.heroku_app_name} mem usage #{current_redis_mem_usage / 1_000_000}MB"
+      false
     end
   end
 

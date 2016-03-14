@@ -21,6 +21,9 @@ Typically it will be used in a background job.
 
 ## Usage
 
+### Official API
+
+The following is the defined API as protected by semantic version and being **threadsafe**.
 
 ```ruby
     require 'redis_cloud_auto_upgrade'
@@ -48,20 +51,41 @@ Typically it will be used in a background job.
     end
 ```
 
-The `potential_upgrade!` is a **threadsafe** interface to the internal implementation
 
+Its return value is false if no upgrade was applied, true otherwise.
 
-Its return value is nil if no upgrade was applied, or a Hash as described below. This
-same Hash is passed into the callback which is only invoked in case an upgrade was
-applied.
+However to get more information you can provide a block which will be called with an  information as described below in case an upgrade was performed.
 
 ```ruby
     {
       upgraded_at: DateTime,
-      old_plan: "redis:100",
-      new_plan: "redis:200",
+      old_plan: "redis:100", new_plan: "redis:200",
       actual_mem_usage_in_percent: 65, # Mem usage that triggered the upgrade
     }
+```
+
+### Inofficial API
+
+Not protected by semantic versioning and **not threadsafe** is the API of the underlying object.
+
+It is however very useful for experimenting:
+
+```ruby
+    
+
+  rcau = RedisCloudAutoUpgrade.new
+  rcau.configure(heroku_api_key: 'aaaaaaaa...', heroku_app_name: 'myapp').configure(treshhold: 0.2) # 20%
+
+  rcau.needs_to_upgrade?    #-> true
+  rcau.configure(treshhold: 0.8)
+  rcau.needs_to_upgrade?    #-> false
+
+  rcau.configure(logger: Logger.new($stdout))
+  
+  rcau.current_redis_cloud_plan #-> rediscloud:100 
+  # Memoized value create a new object if  interested in changing values
+
+  rcau.current_redis_mem_usage  #-> 200300400 bytes, Memoized too
 ```
 
 ## Dependencies
