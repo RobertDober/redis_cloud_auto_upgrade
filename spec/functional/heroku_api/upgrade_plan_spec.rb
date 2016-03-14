@@ -9,7 +9,7 @@ RSpec.describe HerokuAPI do
         new_plan = HerokuAPI.upgrade_plan!(**@heroku_params)
         expect(HerokuAPI.current_redis_cloud_plan(**@heroku_params)).to \
           eq('rediscloud:100')
-        expect( new_plan ).to eq('rediscloud:100')
+        expect(new_plan).to eq('rediscloud:100')
       end
     end
   end # context 'upgrading the plan from rediscloud:30 to rediscloud:100'

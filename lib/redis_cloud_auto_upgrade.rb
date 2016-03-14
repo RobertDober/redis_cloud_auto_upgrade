@@ -2,7 +2,7 @@ require_relative './redis_cloud_auto_upgrade/version'
 require_relative './redis_cloud_auto_upgrade/exceptions'
 require_relative './redis_cloud_auto_upgrade/configuration'
 
-require_relative './heroku_api'
+require_relative './redis_cloud_auto_upgrade/heroku_api'
 
 require 'redis'
 
@@ -62,28 +62,40 @@ class RedisCloudAutoUpgrade
       HerokuAPI.currently_available_memory(
         **config.only(:heroku_api_key, :heroku_app_name))
   end
+
   def do_potential_upgrade!
     if needs_to_upgrade?
-      old_plan = current_redis_cloud_plan
-      new_plan = HerokuAPI.upgrade_plan!(
-        **config.only(:heroku_api_key, :heroku_app_name)
-      )
-      log <<-EOS
-        upgraded #{config.only(:heroku_app_name)} mem usage was #{current_redis_mem_usage / 1_000_000}MB
-        old_plan: #{old_plan}
-        new_plan: #{new_plan}
-      EOS
-      config.on_upgrade.( self ) if config.on_upgrade
+      do_upgrade!
     else
-      log "no upgrade needed #{config.only(:heroku_app_name)} mem usage #{current_redis_mem_usage / 1_000_000}MB"
+      info "no upgrade needed #{config.heroku_app_name} mem usage #{current_redis_mem_usage / 1_000_000}MB"
     end
+  end
+
+  def do_upgrade!
+    old_plan = current_redis_cloud_plan
+    new_plan = HerokuAPI.upgrade_plan!(
+      **config.only(:heroku_api_key, :heroku_app_name)
+    )
+    log_upgrade old_plan, new_plan
+    config.on_upgrade.call(self) if config.on_upgrade
+  end
+
+  def log_upgrade(old_plan, new_plan)
+    info <<-EOS
+upgraded RedisCloud plan for app: #{config.heroku_app_name}
+mem usage was approximately #{current_redis_mem_usage / 1_000_000}MB
+old_plan was #{old_plan}
+new_plan is #{new_plan}
+        EOS
   end
 
   def heroku_params
     @__heroku_params__ ||=
       config.only(:heroku_api_key, :heroku_app_name)
   end
-  def log str
-    # Coming soon
+
+  def info(str)
+    return unless config.logger
+    config.logger.info str
   end
 end # class RedisCloudAutoUpgrade
