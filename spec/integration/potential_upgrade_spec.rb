@@ -1,4 +1,6 @@
-require 'spec_helper'
+require 'vcr_helper'
+require 'timecop'
+
 RSpec.describe RedisCloudAutoUpgrade, type: :functional do
   let(:rcau) { described_class.new.configure(**@heroku_params) }
 
@@ -16,7 +18,7 @@ RSpec.describe RedisCloudAutoUpgrade, type: :functional do
       it 'logs an info message' do
         logger = double
         rcau.configure(logger: logger)
-        expect(logger).to receive(:info).with('no upgrade needed fcv-experiments mem usage 0MB')
+        expect(logger).to receive(:info).with(/no upgrade needed fcv-experiments mem usage \d+MB/)
         rcau.potential_upgrade!
       end
     end # context 'does not upgrade the plan'
@@ -25,14 +27,16 @@ RSpec.describe RedisCloudAutoUpgrade, type: :functional do
       let :message do
         <<-EOM
 upgraded RedisCloud plan for app: fcv-experiments
-mem usage was approximately 0MB
+mem usage was approximately \\d+MB
 old_plan was rediscloud:30
 new_plan is rediscloud:100
           EOM
       end
+      let(:message_rgx) { Regexp.compile message }
 
       before do
-        expect(rcau).to receive(:needs_to_upgrade?).and_return true
+        allow(rcau).to receive(:current_redis_mem_usage).and_return 27_000_000
+        allow(rcau).to receive(:currently_available_memory).and_return 30_000_000
         expect(rcau).to receive(:current_redis_cloud_plan).and_return 'rediscloud:30'
         expect(HerokuAPI).to \
           receive(:upgrade_plan!)
@@ -40,11 +44,19 @@ new_plan is rediscloud:100
           .and_return 'rediscloud:100'
       end
       it { rcau.potential_upgrade! }
+
       it 'executes the callback' do
-        callback_called = false
-        rcau.configure(on_upgrade: -> (x) { x == rcau && callback_called = true })
-        rcau.potential_upgrade!
-        expect(callback_called).to be_truthy
+        Timecop.freeze do
+          passed_in_value = false
+          rcau.configure(on_upgrade: -> (x) { passed_in_value = x })
+          rcau.potential_upgrade!
+
+          expect(passed_in_value.old_plan).to eq('rediscloud:30')
+          expect(passed_in_value.new_plan).to eq('rediscloud:100')
+          expect(passed_in_value.upgraded_at).to eq(Time.now)
+          expect(passed_in_value.mem_usage).to eq(27_000_000)
+          expect(passed_in_value.mem_usage_in_percent).to eq(90)
+        end
       end
       it 'logs some useful info' do
         logger = double
@@ -52,7 +64,7 @@ new_plan is rediscloud:100
 
         expect(logger).to \
           receive(:info)
-          .with(message)
+          .with(message_rgx)
 
         rcau.potential_upgrade!
       end

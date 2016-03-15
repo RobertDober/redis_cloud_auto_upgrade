@@ -31,4 +31,6 @@ build/
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
 .byebug_history
+
+# the cassettes will contain sensible data if you test with a HEROKU_API_KEY env var defined
 fixtures/vcr_cassettes

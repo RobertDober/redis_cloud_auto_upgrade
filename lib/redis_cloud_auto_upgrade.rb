@@ -76,7 +76,7 @@ class RedisCloudAutoUpgrade
       **config.only(:heroku_api_key, :heroku_app_name)
     )
     log_upgrade old_plan, new_plan
-    config.on_upgrade.call(self) if config.on_upgrade
+    config.on_upgrade.call(update_data(old_plan, new_plan)) if config.on_upgrade
   end
 
   def log_upgrade(old_plan, new_plan)
@@ -96,5 +96,20 @@ new_plan is #{new_plan}
   def info(str)
     return unless config.logger
     config.logger.info str
+  end
+
+  def mem_usage_in_percent
+    @__mem_usage_in_percent__ ||=
+      current_redis_mem_usage * 100 / currently_available_memory
+  end
+
+  def update_data(old_plan, new_plan)
+    OpenStruct.new(
+      old_plan: old_plan,
+      new_plan: new_plan,
+      upgraded_at: Time.now,
+      mem_usage: current_redis_mem_usage,
+      mem_usage_in_percent: mem_usage_in_percent
+    )
   end
 end # class RedisCloudAutoUpgrade
