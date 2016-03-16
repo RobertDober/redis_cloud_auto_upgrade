@@ -32,5 +32,5 @@ build/
 .rvmrc
 .byebug_history
 
-# the cassettes will contain sensible data if you test with a HEROKU_API_KEY env var defined
+# the cassettes will contain sensitive data if you test with a HEROKU_API_KEY env var defined
 fixtures/vcr_cassettes
