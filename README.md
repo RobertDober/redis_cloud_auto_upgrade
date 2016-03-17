@@ -59,8 +59,8 @@ However to get more information you can provide a block which will be called wit
 ```ruby
       {
         updated_at: DateTime,
-        old_plan: "redis:100",
-        new_plan: "redis:200",
+        old_plan: "rediscloud:100",
+        new_plan: "rediscloud:200",
         mem_usage: 12_345_678,           # in bytes
         mem_usage_in_percent: 65,        # Mem usage that triggered the upgrade
       }
