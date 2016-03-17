@@ -56,6 +56,7 @@ new_plan is rediscloud:100
           expect(passed_in_value.upgraded_at).to eq(Time.now)
           expect(passed_in_value.mem_usage).to eq(27_000_000)
           expect(passed_in_value.mem_usage_in_percent).to eq(90)
+          expect(passed_in_value.treshhold_in_percent).to eq(50)
         end
       end
       it 'logs some useful info' do
