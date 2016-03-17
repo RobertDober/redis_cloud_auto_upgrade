@@ -63,6 +63,7 @@ However to get more information you can provide a block which will be called wit
         new_plan: "redis:200",
         mem_usage: 12_345_678,           # in bytes
         mem_usage_in_percent: 65,        # Mem usage that triggered the upgrade
+        treshhold_in_percent: 50         # Mem usage >= treshhold triggers upgrades
       }
 ```
 

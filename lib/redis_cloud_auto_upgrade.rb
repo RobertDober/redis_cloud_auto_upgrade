@@ -109,7 +109,13 @@ new_plan is #{new_plan}
       new_plan: new_plan,
       upgraded_at: Time.now,
       mem_usage: current_redis_mem_usage,
-      mem_usage_in_percent: mem_usage_in_percent
+      mem_usage_in_percent: mem_usage_in_percent,
+      treshhold_in_percent: treshhold_in_percent
     )
+  end
+
+  def treshhold_in_percent
+    @__treshhold_in_percent__ ||=
+      ( config.treshhold * 100 + 0.01 ).to_i
   end
 end # class RedisCloudAutoUpgrade
