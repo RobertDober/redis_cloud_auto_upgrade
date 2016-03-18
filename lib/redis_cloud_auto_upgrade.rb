@@ -116,6 +116,6 @@ new_plan is #{new_plan}
 
   def treshhold_in_percent
     @__treshhold_in_percent__ ||=
-      ( config.treshhold * 100 + 0.01 ).to_i
+      ( config.treshhold * 100 ).round
   end
 end # class RedisCloudAutoUpgrade
