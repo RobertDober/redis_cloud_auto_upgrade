@@ -17,8 +17,10 @@ RSpec.describe RedisCloudAutoUpgrade, type: :functional do
       end
       it 'logs an info message' do
         logger = double
+        msg_rgx = /\ARedisCloudAutoUpgrade no upgrade needed fcv-experiments mem usage \d+MB/
         rcau.configure(logger: logger)
-        expect(logger).to receive(:info).with(/no upgrade needed fcv-experiments mem usage \d+MB/)
+        expect(logger).to \
+          receive(:info).with(msg_rgx)
         rcau.potential_upgrade!
       end
     end # context 'does not upgrade the plan'
@@ -32,7 +34,7 @@ old_plan was rediscloud:30
 new_plan is rediscloud:100
           EOM
       end
-      let(:message_rgx) { Regexp.compile message }
+      let(:message_rgx) { /\ARedisCloudAutoUpgrade #{message}/ }
 
       before do
         allow(rcau).to receive(:current_redis_mem_usage).and_return 27_000_000

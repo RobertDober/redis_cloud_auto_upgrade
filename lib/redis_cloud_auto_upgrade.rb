@@ -95,7 +95,7 @@ new_plan is #{new_plan}
 
   def info(str)
     return unless config.logger
-    config.logger.info str
+    config.logger.info([self.class.name, str].join(' '))
   end
 
   def mem_usage_in_percent
@@ -116,6 +116,6 @@ new_plan is #{new_plan}
 
   def treshhold_in_percent
     @__treshhold_in_percent__ ||=
-      ( config.treshhold * 100 ).round
+      (config.treshhold * 100).round
   end
 end # class RedisCloudAutoUpgrade
