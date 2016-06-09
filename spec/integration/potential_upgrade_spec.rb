@@ -4,6 +4,11 @@ require 'timecop'
 
 RSpec.describe RedisCloudAutoUpgrade, type: :functional do
   let(:rcau) { described_class.new.configure(**@heroku_params) }
+  around do |spec|
+    VCR.use_cassette 'integration' do
+      spec.call
+    end
+  end
 
   context '#potential_upgrade!' do
     context 'does not upgrade the plan' do
@@ -18,10 +23,10 @@ RSpec.describe RedisCloudAutoUpgrade, type: :functional do
       end
       it 'logs an info message' do
         logger = double
-        msg_rgx = %r{\ARedisCloudAutoUpgrade no upgrade needed fcv-experiments mem usage \d+MB}
+        msg = %(RedisCloudAutoUpgrade no upgrade needed fcv-experiments mem usage 369MB or 369%, treshhold: 50%, current plan: rediscloud:100) # rubocop:disable Metrics/LineLength
         rcau.configure(logger: logger)
         expect(logger).to \
-          receive(:info).with(msg_rgx)
+          receive(:info).with(msg)
         rcau.potential_upgrade!
       end
     end # context 'does not upgrade the plan'
