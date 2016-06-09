@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Configuration part
 class RedisCloudAutoUpgrade
   Configuration = Struct.new(
@@ -18,7 +19,7 @@ class RedisCloudAutoUpgrade
     end
 
     def only(*keys)
-      keys.inject({})do |h, k|
+      keys.inject({}) do |h, k|
         h.merge(k => send(k))
       end
     end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 RSpec.describe RedisCloudAutoUpgrade, type: :functional do
   context 'illegal config' do

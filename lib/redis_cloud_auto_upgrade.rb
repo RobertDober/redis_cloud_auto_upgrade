@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative './redis_cloud_auto_upgrade/version'
 require_relative './redis_cloud_auto_upgrade/exceptions'
 require_relative './redis_cloud_auto_upgrade/configuration'
@@ -24,7 +25,7 @@ class RedisCloudAutoUpgrade
 
   def current_redis_cloud_plan
     @__current_redis_cloud_plan ||=
-    HerokuAPI.current_redis_cloud_plan(**heroku_params)
+      HerokuAPI.current_redis_cloud_plan(**heroku_params)
   end
 
   # Memoize from lab42_core gem?
@@ -39,11 +40,8 @@ class RedisCloudAutoUpgrade
   end
 
   def potential_upgrade!
-    if config.valid?
-      do_potential_upgrade!
-    else
-      fail IllegalConfiguration, config.errors_human_readable
-    end
+    raise IllegalConfiguration, config.errors_human_readable unless config.valid?
+    do_potential_upgrade!
   end
 
   private
@@ -57,7 +55,8 @@ class RedisCloudAutoUpgrade
   def currently_available_memory
     @__currently_available_memory__ ||=
       HerokuAPI.currently_available_memory(
-        **config.only(:heroku_api_key, :heroku_app_name))
+        **config.only(:heroku_api_key, :heroku_app_name)
+      )
   end
 
   def do_potential_upgrade!
@@ -85,7 +84,7 @@ upgraded RedisCloud plan for app: #{config.heroku_app_name}
 mem usage was approximately #{current_redis_mem_usage / 1_000_000}MB
 old_plan was #{old_plan}
 new_plan is #{new_plan}
-        EOS
+EOS
   end
 
   def heroku_params

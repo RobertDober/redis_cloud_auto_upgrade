@@ -1,5 +1,5 @@
 AllCops:
-  RunRailsCops: true
+  TargetRubyVersion: 2.3
 
   Exclude:
     - 'exp/**/*'
@@ -10,3 +10,14 @@ AllCops:
 Metrics/LineLength:
   Max: 120
 
+Style/AsciiComments:
+    Enabled: false
+
+Style/RegexpLiteral:
+  EnforcedStyle: percent_r
+
+Rails/TimeZone:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false

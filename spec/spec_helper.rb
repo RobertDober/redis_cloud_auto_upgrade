@@ -1,4 +1,5 @@
 
+# frozen_string_literal: true
 require_relative '../lib/redis_cloud_auto_upgrade'
 HerokuAPI = RedisCloudAutoUpgrade::HerokuAPI
 

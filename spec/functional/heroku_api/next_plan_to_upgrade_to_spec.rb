@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 RSpec.describe HerokuAPI, type: :functional do
   context 'next plan to uprade to' do

@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 require 'spec_helper'
-RSpec.describe RedisCloudAutoUpgrade, type: :functional  do
+RSpec.describe RedisCloudAutoUpgrade, type: :functional do
   let :rcau do
     described_class
       .new

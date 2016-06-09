@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 RSpec.describe HerokuAPI do
   context 'redis cloud plan memory' do
@@ -42,7 +43,7 @@ RSpec.describe HerokuAPI do
     context 'illegal plan' do
       it 'raises an error' do
         expect { described_class.available_memory('rediscloud:10') }.to \
-          raise_error(ArgumentError, /the plan "rediscloud:10" does not exist/)
+          raise_error(ArgumentError, %r{the plan "rediscloud:10" does not exist})
       end
     end # context 'illegal transitions'
   end # context 'redis cloud plan memory'
