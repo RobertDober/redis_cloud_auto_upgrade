@@ -1,6 +1,8 @@
 
 # frozen_string_literal: true
 require_relative '../lib/redis_cloud_auto_upgrade'
+require 'byebug'
+
 HerokuAPI = RedisCloudAutoUpgrade::HerokuAPI
 
 PROJECT_ROOT = File.expand_path '../..', __FILE__

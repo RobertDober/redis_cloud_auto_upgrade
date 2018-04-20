@@ -23,7 +23,13 @@ RSpec.describe RedisCloudAutoUpgrade, type: :functional do
       end
       it 'logs an info message' do
         logger = double
-        msg = %(RedisCloudAutoUpgrade no upgrade needed fcv-experiments mem usage 369MB or 369%, treshhold: 50%, current plan: rediscloud:100) # rubocop:disable Metrics/LineLength
+        mem_usage = rcau.current_redis_mem_usage
+        mem_usage_in_mb = mem_usage / 1_000_000
+        msg = [
+          'RedisCloudAutoUpgrade no upgrade needed fcv-experiments',
+          "mem usage #{mem_usage_in_mb}MB or #{mem_usage_in_mb}%,",
+          'treshhold: 50%, current plan: rediscloud:100'
+        ].join(' ')
         rcau.configure(logger: logger)
         expect(logger).to \
           receive(:info).with(msg)

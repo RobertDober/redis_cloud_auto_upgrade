@@ -11,12 +11,12 @@ Gem::Specification.new do |s|
   s.email       = 'robert.dober@gmail.com'
   s.files       = Dir.glob('lib/**/*.rb')
   s.files      += %w(LICENSE README.md)
-  s.homepage    = 'https://github.com/RobertDober/lab42_core'
+  s.homepage    = 'https://github.com/Facilecomm/redis_cloud_auto_upgrade'
   s.licenses    = %w(MIT)
 
   s.required_ruby_version = '>= 2.3.1'
-  s.add_dependency 'redis', '~> 3.2'
-  s.add_dependency 'platform-api', '~> 0.6'
+  s.add_dependency 'redis', '~> 4.0'
+  s.add_dependency 'platform-api', '~> 2.1.0'
 
   s.add_development_dependency 'pry-byebug', '~> 3.3'
   s.add_development_dependency 'rspec', '~> 3.4'
