@@ -45,7 +45,7 @@ module RedisCloudAutoUpgrade::HerokuAPI
     private
 
     def heroku(api_key)
-      PlatformAPI.connect api_key
+      PlatformAPI.connect_oauth api_key
     end
 
     def next_plan(plan)
