@@ -1,5 +1,5 @@
-
 # frozen_string_literal: true
+
 module LetDoublesHelper
   def let_doubles(*names)
     names.each(&method(:let_double))

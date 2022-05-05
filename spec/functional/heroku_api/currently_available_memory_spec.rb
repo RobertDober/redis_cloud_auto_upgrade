@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'spec_helper'
 RSpec.describe HerokuAPI, type: :functional do
   context '.currently_available_memory' do

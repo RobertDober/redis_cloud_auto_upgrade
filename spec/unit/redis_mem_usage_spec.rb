@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'spec_helper'
 RSpec.describe RedisCloudAutoUpgrade do
   let_doubles :redis, :used_memory, :memory_usage

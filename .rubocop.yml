@@ -1,5 +1,9 @@
+require:
+  - rubocop-rails
+
 AllCops:
   TargetRubyVersion: 2.7
+  TargetRailsVersion: 6.0
 
   Exclude:
     - 'exp/**/*'
@@ -7,17 +11,32 @@ AllCops:
 # Style/RegexpLiteral:
 #   EnforcedStyle: percent_r
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
+
+Metrics/BlockLength:
+  Max: 50
 
 Style/AsciiComments:
     Enabled: false
 
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/CommentedKeyword:
+  Enabled: false
+
+Style/FormatStringToken:
+  Enabled: false
+
 Style/RegexpLiteral:
   EnforcedStyle: percent_r
+
+
+#### Rails
+Rails:
+  Enabled: true
 
 Rails/TimeZone:
   Enabled: false
 
-Style/ClassAndModuleChildren:
-  Enabled: false

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'vcr_helper'
 
 RSpec.describe HerokuAPI, type: :functional do

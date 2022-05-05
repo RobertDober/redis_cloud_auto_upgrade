@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'spec_helper'
 RSpec.describe RedisCloudAutoUpgrade do
   let_doubles(:current_plan, :heroku_api_key, :heroku_app_name)

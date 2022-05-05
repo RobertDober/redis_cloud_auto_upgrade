@@ -1,0 +1,23 @@
+inherit_from: ../.rubocop.yml
+
+# Tests can be very long since we would like to keep
+# all the class tests in the same class
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+# Long helpers are properly not ideal
+# So keeping it disabled for now
+# Uncomment and justify if needed
+# Metrics/ModuleLength:
+#   Enabled: false
+
+# Most test classes are obvious in what they test
+Style/Documentation:
+  Enabled: false
+
+# Let us see if we have long tests
+# Metrics/BlockLength:
+#   Enabled: false

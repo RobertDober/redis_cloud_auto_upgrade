@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'spec_helper'
 RSpec.describe HerokuAPI do
   context 'redis cloud plan memory' do

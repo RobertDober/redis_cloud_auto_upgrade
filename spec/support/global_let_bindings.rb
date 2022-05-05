@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 RSpec.configure do |config|
   config.before(:example, type: :functional) do
     @heroku_app_name = 'fcv-experiments'

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Configuration part
 class RedisCloudAutoUpgrade
   Configuration = Struct.new(
@@ -26,12 +27,13 @@ class RedisCloudAutoUpgrade
 
     def errors_human_readable
       return nil if @errors.empty?
+
       missing_fields
     end
 
     def valid?
-      heroku_api_key.nil? && @errors.push([:missing, :heroku_api_key])
-      heroku_app_name.nil? && @errors.push([:missing, :heroku_app_name])
+      heroku_api_key.nil? && @errors.push(%i[missing heroku_api_key])
+      heroku_app_name.nil? && @errors.push(%i[missing heroku_app_name])
       @errors.empty?
     end
 

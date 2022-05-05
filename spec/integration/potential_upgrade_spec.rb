@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'vcr_helper'
 require 'timecop'
 
@@ -39,12 +40,12 @@ RSpec.describe RedisCloudAutoUpgrade, type: :functional do
 
     context 'upgrades the plan' do
       let :message do
-        <<-EOM
-upgraded RedisCloud plan for app: fcv-experiments
-mem usage was approximately \\d+MB
-old_plan was rediscloud:30
-new_plan is rediscloud:100
-          EOM
+        <<~UPGRADE
+          upgraded RedisCloud plan for app: fcv-experiments
+          mem usage was approximately \\d+MB
+          old_plan was rediscloud:30
+          new_plan is rediscloud:100
+        UPGRADE
       end
       let(:message_rgx) { %r{\ARedisCloudAutoUpgrade #{message}} }
 
@@ -62,7 +63,7 @@ new_plan is rediscloud:100
       it 'executes the callback' do
         Timecop.freeze do
           passed_in_value = false
-          rcau.configure(on_upgrade: -> (x) { passed_in_value = x })
+          rcau.configure(on_upgrade: ->(x) { passed_in_value = x })
           rcau.potential_upgrade!
 
           expect(passed_in_value.old_plan).to eq('rediscloud:30')
