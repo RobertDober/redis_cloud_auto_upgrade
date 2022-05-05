@@ -14,14 +14,14 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/Facilecomm/redis_cloud_auto_upgrade'
   s.licenses    = %w(MIT)
 
-  s.required_ruby_version = '>= 2.3.1'
-  s.add_dependency 'redis', '~> 4.0'
-  s.add_dependency 'platform-api', '~> 2.2.0'
+  s.required_ruby_version = '>= 2.7.4'
+  s.add_dependency 'redis', '~> 4.6'
+  s.add_dependency 'platform-api', '~> 3.3.0'
 
-  s.add_development_dependency 'pry-byebug', '~> 3.3'
-  s.add_development_dependency 'rspec', '~> 3.4'
-  s.add_development_dependency 'rubocop', '= 0.40.0'
-  s.add_development_dependency 'timecop', '~> 0.8'
-  s.add_development_dependency 'vcr', '~> 3.0'
-  s.add_development_dependency 'webmock', '~> 1.24'
+  s.add_development_dependency 'pry-byebug', '~> 3.9'
+  s.add_development_dependency 'rspec', '~> 3.11'
+  s.add_development_dependency 'rubocop', '= 0.88.0'
+  s.add_development_dependency 'timecop', '~> 0.9.5'
+  s.add_development_dependency 'vcr', '~> 6.1.0'
+  s.add_development_dependency 'webmock', '~> 3.14'
 end
